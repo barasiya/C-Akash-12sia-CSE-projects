@@ -3,72 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Gallery</title>
+    <title>Photo & Video Gallery</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            background-color: #f4f4f4;
+            margin: 20px;
         }
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
-            max-width: 800px;
-            margin: 20px;
+            width: 80%;
+            max-width: 1000px;
         }
-        .gallery img {
+        .gallery img, .gallery video {
             width: 100%;
             height: auto;
-            border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
+            border-radius: 8px;
         }
         .lightbox {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .lightbox img {
+        .lightbox.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .lightbox-content {
             max-width: 90%;
             max-height: 90%;
-            border-radius: 5px;
         }
-        .lightbox.show {
-            display: flex;
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <h2>Photo & Video Gallery</h2>
     <div class="gallery">
-        <img src="close-up-gifting-fortune-cookie-chinese-new-year.jpg" onclick="openLightbox(this.src)" alt="Image 1">
-        <img src="authentic-indian-bride-groom-s-hands-holding-together-traditional-wedding-attire.jpg" onclick="openLightbox(this.src)" alt="Image 2">
-        <img src="https://via.placeholder.com/200" onclick="openLightbox(this.src)" alt="Image 3">
-        <img src="https://via.placeholder.com/200" onclick="openLightbox(this.src)" alt="Image 4">
+        <img src="https://via.placeholder.com/200" alt="Sample Image" onclick="openLightbox(this.src)">
+        <video src="4174213-hd_1920_1080_30fps.mp4" controls onclick="openLightbox(this.src)"></video>
+        <img src="https://via.placeholder.com/200" alt="Sample Image" onclick="openLightbox(this.src)">
+        <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls onclick="openLightbox(this.src)"></video>
     </div>
     
-    <div class="lightbox" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="Enlarged Image">
+    <div class="lightbox" id="lightbox">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" class="lightbox-content" style="display: none;">
+        <video id="lightbox-video" class="lightbox-content" controls style="display: none;"></video>
     </div>
-    
+
     <script>
         function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.querySelector('.lightbox').classList.add('show');
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const video = document.getElementById('lightbox-video');
+            
+            if (src.endsWith('.mp4')) {
+                video.src = src;
+                video.style.display = 'block';
+                img.style.display = 'none';
+            } else {
+                img.src = src;
+                img.style.display = 'block';
+                video.style.display = 'none';
+            }
+            lightbox.classList.add('active');
         }
+
         function closeLightbox() {
-            document.querySelector('.lightbox').classList.remove('show');
+            document.getElementById('lightbox').classList.remove('active');
         }
     </script>
 </body>
