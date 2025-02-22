@@ -62,12 +62,10 @@
     <h2>Photo & Video Gallery</h2>
     <div class="gallery">
         <img src="https://via.placeholder.com/200" alt="Sample Image" onclick="openLightbox(this.src)">
-        <video src="4174213-hd_1920_1080_30fps.mp4" controls onclick="openLightbox(this.src)"></video>
-        <img src="https://via.placeholder.com/200" alt="Sample Image" onclick="openLightbox(this.src)">
-        <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls onclick="openLightbox(this.src)"></video>
         <video src="4174213-hd_1920_1080_30fps.mp4" controls onclick="openLightboxVideo(this)"></video>
-<video src="https://www.w3schools.com/html/mov_bbb.mp4" controls onclick="openLightboxVideo(this)"></video>
-
+        <img src="https://via.placeholder.com/200" alt="Sample Image" onclick="openLightbox(this.src)">
+        <video src="4438653-hd_1920_1080_25fps.mp4" controls onclick="openLightboxVideo(this)"></video>
+        <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls onclick="openLightboxVideo(this)"></video>
     </div>
     
     <div class="lightbox" id="lightbox">
@@ -81,21 +79,32 @@
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             const video = document.getElementById('lightbox-video');
-            
-            if (src.endsWith('.mp4')) {
-                video.src = src;
-                video.style.display = 'block';
-                img.style.display = 'none';
-            } else {
-                img.src = src;
-                img.style.display = 'block';
-                video.style.display = 'none';
-            }
+
+            img.src = src;
+            img.style.display = 'block';
+            video.style.display = 'none';
             lightbox.classList.add('active');
         }
 
+        function openLightboxVideo(element) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const video = document.getElementById('lightbox-video');
+
+            video.src = element.getAttribute('src');
+            video.style.display = 'block';
+            img.style.display = 'none';
+            lightbox.classList.add('active');
+            video.play();
+        }
+
         function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
+            const lightbox = document.getElementById('lightbox');
+            const video = document.getElementById('lightbox-video');
+            
+            lightbox.classList.remove('active');
+            video.pause();
+            video.currentTime = 0; // Reset video to the beginning
         }
     </script>
 </body>
